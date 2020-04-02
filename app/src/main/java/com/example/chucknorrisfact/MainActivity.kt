@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         viewManager = LinearLayoutManager(this)
         viewAdapter = JokeAdapter(jokeList)
 
-        recyclerView = findViewById<RecyclerView>(R.id.recylerview).apply {
+        recyclerView = findViewById<RecyclerView>(R.id.recylerview_id).apply {
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView
             setHasFixedSize(true)
@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
             adapter = viewAdapter
 
 
-            Log.d(TAG, jokeList.toString())
+        Log.d(TAG, jokeList.toString())
         }
     }
 }

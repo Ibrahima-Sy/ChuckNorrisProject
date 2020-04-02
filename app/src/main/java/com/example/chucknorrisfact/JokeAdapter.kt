@@ -4,22 +4,23 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
+import com.example.chucknorrisfact.JokeList.jokeList
 
 
 class JokeAdapter( pJokeList : List<String> = emptyList() ): Adapter <JokeAdapter.JokeViewHolder>() {
 
     class JokeViewHolder(val Joke: TextView): RecyclerView.ViewHolder(Joke)
 
-    var jokeList = pJokeList
+    var pJokeList = pJokeList
     set(value) {
         notifyDataSetChanged()
         field = value
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JokeViewHolder {
-        val jokeList= LayoutInflater.from(parent.context)
+        val Joke= LayoutInflater.from(parent.context)
             .inflate(R.layout.joke_layout,parent,false) as TextView
-        return JokeViewHolder(jokeList)
+        return JokeViewHolder(Joke)
     }
 
     override fun getItemCount(): Int {
