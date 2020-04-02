@@ -6,6 +6,8 @@ import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chucknorrisfact.JokeList.jokeList
+import kotlinx.serialization.*
+import kotlinx.serialization.json.*
 
 
 private val TAG = "D Jokes"
