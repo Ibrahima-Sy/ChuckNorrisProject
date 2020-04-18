@@ -6,8 +6,10 @@ import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chucknorrisfact.JokeList.jokeList
+import io.reactivex.Scheduler
 import io.reactivex.Single
 import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.schedulers.Schedulers
 
 
 private val TAG = "D Jokes"
@@ -23,9 +25,9 @@ class MainActivity : AppCompatActivity() {
 
         val jokeServiceF = JokeApiServiceFactory
 
-        val thaJoke = jokeServiceF.Idle1().giveMeAJoke().subscribeBy(
+        val thaJoke = jokeServiceF.idle1().giveMeAJoke().subscribeOn(Schedulers.io()).subscribeBy (
             onError= { Log.d("ERROR",it.toString())},
-            onSuccess={Log.d("SUCCESS",it.toString())}
+            onSuccess={Log.d("SUCCESS",it.value)}
 
         )
 
