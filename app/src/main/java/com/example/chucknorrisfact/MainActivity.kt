@@ -6,6 +6,8 @@ import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chucknorrisfact.JokeList.jokeList
+import io.reactivex.Single
+import io.reactivex.rxkotlin.subscribeBy
 
 
 private val TAG = "D Jokes"
@@ -18,6 +20,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val jokeServiceF = JokeApiServiceFactory
+
+        val thaJoke = jokeServiceF.Idle1().giveMeAJoke().subscribeBy(
+            onError= { Log.d("ERROR",it.toString())},
+            onSuccess={Log.d("SUCCESS",it.toString())}
+
+        )
+
 
         viewManager = LinearLayoutManager(this)
         viewAdapter = JokeAdapter(jokeList)
@@ -32,7 +43,6 @@ class MainActivity : AppCompatActivity() {
 
             // specify an viewAdapter (see also next example)
             adapter = viewAdapter
-
 
         Log.d(TAG, jokeList.toString())
         }
