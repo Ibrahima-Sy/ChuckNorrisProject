@@ -17,5 +17,3 @@ data class Joke (val categories:List<String>,
                         val updatedAt: String,
                         val url:String,
                         val value:String)
-
-

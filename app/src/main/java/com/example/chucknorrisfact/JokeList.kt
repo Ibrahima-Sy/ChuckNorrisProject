@@ -1,18 +1,30 @@
 package com.example.chucknorrisfact
 
 
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonConfiguration
+
 object JokeList {
-    val jokeList : List<String> = listOf<String>("Chuck Norris is your father!",
-        "Chuck Norris once rammed a banjo up a bull's butt, and then hit it.",
-        "The term absolute zero refers to the number of people who will survive if Chuck Norris decides to go on an all-out killing rampage.",
-        "Buzz Lightyear found out just how far it is to infinity and beyond after Chuck Norris drop kicked his ass for refusing to come out of his grandson's toy box.",
-        "Chuck Norris eat Pain for breakfast",
-        "Chuck Norris uses the planet Jupiter as his personal sauna.",
-        "Hitler killed himself the year Chuck Norris died... COINIDENCE?!?!?!",
-        "It can look like chicken, taste like chicken, and feel like chicken, but if Chuck Norris says it's beef...it's beef. NO QUESTIONS!!!",
-        "Old Mother Hubbard Went to the cupboard, To give the poor doggy a bone: But when she bent over, Chuck Norris took over, 'cause Chuck had a bone of his own.",
-        "Bruce Lee died from a delayed reaction to a Chuck Norris roundhouse kick to the face in Way of the Dragon.",
-        "Chuck Norris once slam-dunked a supermarket against the side of a mountain.",
-        "Chuck Norris won a staring contest against medusa")
+    val jokeList : List<Joke> = listOf<Joke>(
+        Json(JsonConfiguration.Stable).parse(Joke.serializer(), """{"categories":[],"created_at":"2020-01-05 13:42:25.099703","icon_url":"https://assets.chucknorris.host/img/avatar/chuck-norris.png","id":"uIdfHDkoSyCerHte9kgcqA","updated_at":"2020-01-05 13:42:25.099703","url":"https://api.chucknorris.io/jokes/uIdfHDkoSyCerHte9kgcqA","value":"Chuck Norris can blow up a balloon with both of his lips tied behind his back."}""")
+        ,
+        Json(JsonConfiguration.Stable).parse(Joke.serializer(), """{"categories":[],"created_at":"2020-01-05 13:42:23.240175","icon_url":"https://assets.chucknorris.host/img/avatar/chuck-norris.png","id":"yNualoRcRYukITzU-yleow","updated_at":"2020-01-05 13:42:23.240175","url":"https://api.chucknorris.io/jokes/yNualoRcRYukITzU-yleow","value":"Chuck Norris makes great charcoal grilled cannibal kabobs."}""")
+
+       ,
+        Json(JsonConfiguration.Stable).parse(Joke.serializer(), """{"categories":[],"created_at":"2020-01-05 13:42:29.569033","icon_url":"https://assets.chucknorris.host/img/avatar/chuck-norris.png","id":"Tk5GzQ81RxyDoq1C0dJJXg","updated_at":"2020-01-05 13:42:29.569033","url":"https://api.chucknorris.io/jokes/Tk5GzQ81RxyDoq1C0dJJXg","value":"A grizzly bear shattered all its teeth when it bit Chuck Norris in the ass. A merciful Chuck Norris then lovingless fed the toothless grizzly 3 gallons of prueed salmon before ripping its gallbladder out through its asshole."}""")
+
+        ,
+        Json(JsonConfiguration.Stable).parse(Joke.serializer(), """{"categories":[],"created_at":"2020-01-05 13:42:23.880601","icon_url":"https://assets.chucknorris.host/img/avatar/chuck-norris.png","id":"sH0nsqPTSlqTOgCN2C5qMQ","updated_at":"2020-01-05 13:42:23.880601","url":"https://api.chucknorris.io/jokes/sH0nsqPTSlqTOgCN2C5qMQ","value":"CHuck Norris spilled some milk. He didn't cry over the spilt milk. The spilt milk cried and made its way back into the carton."}""")
+
+        ,
+        Json(JsonConfiguration.Stable).parse(Joke.serializer(), """{"categories":[],"created_at":"2020-01-05 13:42:28.143137","icon_url":"https://assets.chucknorris.host/img/avatar/chuck-norris.png","id":"f3cBaAByRWaeKNggFJRivQ","updated_at":"2020-01-05 13:42:28.143137","url":"https://api.chucknorris.io/jokes/f3cBaAByRWaeKNggFJRivQ","value":"It is possible to contract hepatitis from smelling one of Chuck Norris's farts."}""")
+
+        ,
+        Json(JsonConfiguration.Stable).parse(Joke.serializer(), """{"categories":[],"created_at":"2020-01-05 13:42:25.099703","icon_url":"https://assets.chucknorris.host/img/avatar/chuck-norris.png","id":"h3Olx9rESdO0OluGQzKqaw","updated_at":"2020-01-05 13:42:25.099703","url":"https://api.chucknorris.io/jokes/h3Olx9rESdO0OluGQzKqaw","value":"On the day before the first day, Chuck Norris said, \"Let there be God.\""}""")
+
+        ,
+        Json(JsonConfiguration.Stable).parse(Joke.serializer(), """{"categories":[],"created_at":"2020-01-05 13:42:20.262289","icon_url":"https://assets.chucknorris.host/img/avatar/chuck-norris.png","id":"8fNvcQKqQaiwDDFrC4-wXA","updated_at":"2020-01-05 13:42:20.262289","url":"https://api.chucknorris.io/jokes/8fNvcQKqQaiwDDFrC4-wXA","value":"Before the Boogyman goes to bed at night, he checks in his closet for Chuck Norris."}""")
+
+        )
 
 }

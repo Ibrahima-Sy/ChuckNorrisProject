@@ -7,15 +7,15 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.example.chucknorrisfact.JokeList.jokeList
 
 
-class JokeAdapter( pJokeList : List<String> = emptyList() ): Adapter <JokeAdapter.JokeViewHolder>() {
+class JokeAdapter( jokeList: List<Joke> = emptyList() ): Adapter <JokeAdapter.JokeViewHolder>() {
 
     class JokeViewHolder(val Joke: TextView): RecyclerView.ViewHolder(Joke)
 
-    var pJokeList = pJokeList
-    set(value) {
-        notifyDataSetChanged()
-        field = value
-    }
+    var jokeList = jokeList
+        set(value) {
+            notifyDataSetChanged()
+            field = value
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JokeViewHolder {
         val Joke= LayoutInflater.from(parent.context)
@@ -25,13 +25,13 @@ class JokeAdapter( pJokeList : List<String> = emptyList() ): Adapter <JokeAdapte
 
     override fun getItemCount(): Int {
         val count= jokeList.size
-        return (count)
+        return count
 
     }
 
     override fun onBindViewHolder(holder: JokeViewHolder, position: Int) {
      //Set the new data you want to display by replacing old data with new one
-        holder.Joke.text=jokeList[position]
+        holder.Joke.text=jokeList[position].value
 
     }
 
