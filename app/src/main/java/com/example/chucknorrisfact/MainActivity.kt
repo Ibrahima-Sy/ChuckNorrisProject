@@ -55,31 +55,42 @@ class MainActivity : AppCompatActivity() {
 
         val jokeServiceF = JokeApiServiceFactory
 
-        val thaJoke = jokeServiceF.idle1().giveMeAJoke().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribeBy (
-            onError= { Log.d("ERROR","empty")},
-            onSuccess={ viewAdapter.jokelist = viewAdapter.jokelist.plus(it)
-            }
 
-        )
 
         loader= findViewById(R.id.loader_id)
-        bouton_id.setOnClickListener {
 
-            val thaOtherJoke = jokeServiceF.idle1().giveMeAJoke().subscribeOn(Schedulers.io()).doOnSubscribe { loader.setVisibility(
-                View.VISIBLE) }.observeOn(AndroidSchedulers.mainThread()).subscribeBy (
-                onError= { Log.d("ERROR","empty")},
-                onSuccess={  loader.setVisibility(View.INVISIBLE);
+        fun printJokes(){
+            val thaJokes = jokeServiceF.idle1().giveMe10().repeat(10).subscribeOn(Schedulers.io())
+                .doOnSubscribe {
+                    loader.setVisibility(
+                        View.VISIBLE
+                    );compositeDisp.add(it)
+                }.observeOn(AndroidSchedulers.mainThread()).subscribeBy(
+                onNext = {
+                    loader.setVisibility(View.INVISIBLE);
                     viewAdapter.jokelist = viewAdapter.jokelist.plus(it)
+                    loader.setVisibility(View.VISIBLE);
 
-                }
+
+                },
+                onComplete = { loader.setVisibility(View.INVISIBLE); }
 
             )
         }
 
-        compositeDisp.add(thaJoke)
+        printJokes()
+
+        viewAdapter.setOnBottomReachedListener2(object: OnBottomReachedListener {
+            override fun onBottomReached(position: Int) {
+                if (!compositeDisp.isDisposed())
+                    compositeDisp.clear()
+
+                printJokes()
+            }
+        });
+
 
         //We only need to clear the resource if the disposable has NOT been disposed
-        if (compositeDisp.isDisposed())
-            compositeDisp.clear()
+
     }
 }

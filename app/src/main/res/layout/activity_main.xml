@@ -11,25 +11,19 @@
     <androidx.recyclerview.widget.RecyclerView
 
         android:id="@+id/recylerview_id"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
 
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
 
-        app:layout_constraintTop_toBottomOf="@+id/bouton_id" />
-
-    <Button
-
-        android:id="@+id/bouton_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/Gimme_more"
-
-
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintLeft_toRightOf="parent"
+
         app:layout_constraintRight_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        />
+
+
 
 
     <ProgressBar
@@ -38,8 +32,7 @@
         android:layout_height="wrap_content"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/bouton_id"
-        app:layout_constraintLeft_toRightOf="@id/bouton_id"
+        app:layout_constraintLeft_toRightOf="parent"
 
         app:layout_constraintRight_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/recylerview_id" />

@@ -5,10 +5,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 
-
-
+// Solution inspired from https://medium.com/@ayhamorfali/android-detect-when-the-recyclerview-reaches-the-bottom-43f810430e1e
+interface OnBottomReachedListener {
+    fun onBottomReached(position: Int)
+}
 
 class JokeAdapter(): Adapter <JokeAdapter.JokeViewHolder>() {
+
+    var onBottomReachedListener: OnBottomReachedListener? = null
 
     class JokeViewHolder(val Joke: TextView): RecyclerView.ViewHolder(Joke)
 
@@ -32,8 +36,18 @@ class JokeAdapter(): Adapter <JokeAdapter.JokeViewHolder>() {
 
     override fun onBindViewHolder(holder: JokeViewHolder, position: Int) {
      //Set the new data you want to display by replacing old data with new one
+
+        if (position == jokelist.size - 1){
+
+            onBottomReachedListener?.onBottomReached(position);
+
+        }
         holder.Joke.text=jokelist[position].value
 
+    }
+
+    fun setOnBottomReachedListener2 (onBottomReachedListener: OnBottomReachedListener?) {
+        this.onBottomReachedListener = onBottomReachedListener
     }
 
 }
