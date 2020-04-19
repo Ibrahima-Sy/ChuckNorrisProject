@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 
 
 
+
 class JokeAdapter(): Adapter <JokeAdapter.JokeViewHolder>() {
 
     class JokeViewHolder(val Joke: TextView): RecyclerView.ViewHolder(Joke)

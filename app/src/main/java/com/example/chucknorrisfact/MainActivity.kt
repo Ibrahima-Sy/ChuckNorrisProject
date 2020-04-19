@@ -3,6 +3,7 @@ package com.example.chucknorrisfact
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.Scheduler
@@ -12,6 +13,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
+import android.widget.ProgressBar;
 
 
 private val TAG = "D Jokes"
@@ -21,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     //TO resolve Smart casting error we use a local variable with smart cast
     private lateinit var viewManager: RecyclerView.LayoutManager
     private val compositeDisp: CompositeDisposable= CompositeDisposable()
+    private lateinit var loader: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,11 +62,15 @@ class MainActivity : AppCompatActivity() {
 
         )
 
-        bouton.setOnClickListener {
+        loader= findViewById(R.id.loader_id)
+        bouton_id.setOnClickListener {
 
-            val thaOtherJoke = jokeServiceF.idle1().giveMeAJoke().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribeBy (
+            val thaOtherJoke = jokeServiceF.idle1().giveMeAJoke().subscribeOn(Schedulers.io()).doOnSubscribe { loader.setVisibility(
+                View.VISIBLE) }.observeOn(AndroidSchedulers.mainThread()).subscribeBy (
                 onError= { Log.d("ERROR","empty")},
-                onSuccess={ viewAdapter.jokelist = viewAdapter.jokelist.plus(it)
+                onSuccess={  loader.setVisibility(View.INVISIBLE);
+                    viewAdapter.jokelist = viewAdapter.jokelist.plus(it)
+
                 }
 
             )
