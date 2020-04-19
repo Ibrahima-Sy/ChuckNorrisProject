@@ -11,25 +11,25 @@
     <androidx.recyclerview.widget.RecyclerView
 
         android:id="@+id/recylerview_id"
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
 
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        app:layout_constraintTop_toBottomOf="@+id/bouton" />
 
-    />
+    <Button
 
-    <TextView
-        android:id="@+id/text_id"
+        android:id="@+id/bouton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/Gimme_more"
+
 
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintRight_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

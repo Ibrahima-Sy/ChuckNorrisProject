@@ -11,7 +11,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
-
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 private val TAG = "D Jokes"
@@ -46,6 +46,10 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+
+
+
+
         val jokeServiceF = JokeApiServiceFactory
 
         val thaJoke = jokeServiceF.idle1().giveMeAJoke().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribeBy (
@@ -54,6 +58,16 @@ class MainActivity : AppCompatActivity() {
             }
 
         )
+
+        bouton.setOnClickListener {
+
+            val thaOtherJoke = jokeServiceF.idle1().giveMeAJoke().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribeBy (
+                onError= { Log.d("ERROR","empty")},
+                onSuccess={ viewAdapter.jokelist = viewAdapter.jokelist.plus(it)
+                }
+
+            )
+        }
 
         compositeDisp.add(thaJoke)
 
