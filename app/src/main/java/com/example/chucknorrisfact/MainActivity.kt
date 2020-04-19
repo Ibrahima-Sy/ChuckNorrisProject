@@ -18,7 +18,7 @@ private val TAG = "D Jokes"
 
 class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
+    //TO resolve Smart casting error we use a local variable with smart cast
     private lateinit var viewManager: RecyclerView.LayoutManager
     private val compositeDisp: CompositeDisposable= CompositeDisposable()
 
@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
 
         viewManager = LinearLayoutManager(this)
-        viewAdapter = JokeAdapter()
+        var viewAdapter = JokeAdapter()
 
         recyclerView = findViewById<RecyclerView>(R.id.recylerview_id).apply {
             // use this setting to improve performance if you know that changes
@@ -50,14 +50,15 @@ class MainActivity : AppCompatActivity() {
 
         val thaJoke = jokeServiceF.idle1().giveMeAJoke().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribeBy (
             onError= { Log.d("ERROR","empty")},
-            onSuccess={Log.d("SUCCESS", viewAdapter.jokelist.plus(it.value).toString())}
+            onSuccess={ viewAdapter.jokelist = viewAdapter.jokelist.plus(it)
+            }
 
         )
 
         compositeDisp.add(thaJoke)
 
         //We only need to clear the resource if the disposable has NOT been disposed
-        if (!compositeDisp.isDisposed())
+        if (compositeDisp.isDisposed())
             compositeDisp.clear()
     }
 }
