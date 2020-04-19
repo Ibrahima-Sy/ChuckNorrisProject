@@ -27,8 +27,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewManager: RecyclerView.LayoutManager
     private val compositeDisp: CompositeDisposable= CompositeDisposable()
     private lateinit var loader: ProgressBar
-    private var savedJokes = emptyList<Joke>()
+    private lateinit var secondaryAdapter: JokeAdapter
+    private lateinit var savedJokes :List<Joke>
     private var countJ:Int=1
+   
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,10 +42,11 @@ class MainActivity : AppCompatActivity() {
 
 
 
-
         viewManager = LinearLayoutManager(this)
         val viewAdapter = JokeAdapter()
-        viewAdapter.jokelist = savedJokes
+        //viewAdapter.jokelist = savedJokes
+        secondaryAdapter=viewAdapter
+
 
         recyclerView = findViewById<RecyclerView>(R.id.recylerview_id).apply {
             // use this setting to improve performance if you know that changes
@@ -78,7 +81,7 @@ class MainActivity : AppCompatActivity() {
                 onNext = {
                     loader.setVisibility(View.INVISIBLE);
                     viewAdapter.jokelist = viewAdapter.jokelist.plus(it);
-                    savedJokes = viewAdapter.jokelist.plus(it);
+                    savedJokes = viewAdapter.jokelist;
                     loader.setVisibility(View.VISIBLE);
 
 
@@ -88,7 +91,10 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
-        printJokes()
+        if (secondaryAdapter.jokelist.isEmpty()) {
+            Log.d("BOOL","Reload Jokes")
+            printJokes()
+        }
 
         viewAdapter.setOnBottomReachedListener2(object: OnBottomReachedListener {
             override fun onBottomReached(position: Int) {
@@ -107,24 +113,43 @@ class MainActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         var str=""
-        outState.putInt("countJ",countJ)
-        for (k in 0 until (countJ*10)+1)
-            str= k.toString()
+        var compteur: Int =0
+        outState.putInt("nbJokes",savedJokes.size)
+        for (k in savedJokes.indices) {
 
-            outState.putString(str,Json(JsonConfiguration.Stable).stringify(Joke.serializer(), savedJokes[countJ]))
+            str = compteur.toString()
 
+
+            outState.putString(
+                str,
+                Json(JsonConfiguration.Stable).stringify(Joke.serializer(), savedJokes[compteur])
+            )
+
+            Log.d("Valeur du compteur", compteur.toString())
+            compteur++
+        }
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         var str=""
-        val cnt=savedInstanceState.getInt("countJ")
+        val cnt=savedInstanceState.getInt("nbJokes")
+        ///
+        var transitJokeList = emptyList<Joke>()
+        var compteur=0
+        for (k in 0..cnt-1) {
+            str = compteur.toString()
+            Log.d("Valeur du compteur 2", compteur.toString())
+            transitJokeList = transitJokeList.plus(
+                Json(JsonConfiguration.Stable).parse(
+                    Joke.serializer(),
+                    savedInstanceState.getString(str)!!
+                )
+            )
+            compteur++
 
-        for (k in 0 until (cnt*10)+1)
-            str= k.toString()
-            savedJokes=savedJokes.plus(Json(JsonConfiguration.Stable).parse(Joke.serializer(),
-                savedInstanceState.getString(str).toString()
-            ))
+        }
+        secondaryAdapter.jokelist = secondaryAdapter.jokelist.plus(transitJokeList)
 
     }
 }
