@@ -5,12 +5,13 @@ import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.chucknorrisfact.JokeList.jokeList
 import io.reactivex.Scheduler
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
+
 
 
 private val TAG = "D Jokes"
@@ -25,22 +26,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val jokeServiceF = JokeApiServiceFactory
 
-        val thaJoke = jokeServiceF.idle1().giveMeAJoke().subscribeOn(Schedulers.io()).subscribeBy (
-            onError= { Log.d("ERROR","empty")},
-            onSuccess={Log.d("SUCCESS",it.value)}
 
-        )
 
-        compositeDisp.add(thaJoke)
-
-        //We only need to clear the resource if the disposable has NOT been disposed
-        if (!compositeDisp.isDisposed())
-            compositeDisp.clear()
 
         viewManager = LinearLayoutManager(this)
-        viewAdapter = JokeAdapter(jokeList)
+        viewAdapter = JokeAdapter()
 
         recyclerView = findViewById<RecyclerView>(R.id.recylerview_id).apply {
             // use this setting to improve performance if you know that changes
@@ -53,7 +44,20 @@ class MainActivity : AppCompatActivity() {
             // specify an viewAdapter (see also next example)
             adapter = viewAdapter
 
-        Log.d(TAG, jokeList.toString())
         }
+
+        val jokeServiceF = JokeApiServiceFactory
+
+        val thaJoke = jokeServiceF.idle1().giveMeAJoke().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribeBy (
+            onError= { Log.d("ERROR","empty")},
+            onSuccess={Log.d("SUCCESS", viewAdapter.jokelist.plus(it.value).toString())}
+
+        )
+
+        compositeDisp.add(thaJoke)
+
+        //We only need to clear the resource if the disposable has NOT been disposed
+        if (!compositeDisp.isDisposed())
+            compositeDisp.clear()
     }
 }
